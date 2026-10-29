@@ -345,6 +345,25 @@ input[type=time],input[type=number]{-webkit-appearance:none; appearance:none; di
 input[type=time]::-webkit-date-and-time-value{text-align:center; min-height:1.2em; margin:0}
 input[type=time]::-webkit-datetime-edit{padding:0}
 input[type=number]{-moz-appearance:textfield}
+
+/* ---- science page ---- */
+.note-box{background:var(--lemon); color:var(--ink); border-radius:22px; padding:16px 20px; font-size:16px; line-height:1.45; margin:0 0 8px; max-width:720px}
+.sci-grid{display:grid; gap:14px; grid-template-columns:1fr; margin:6px 0 10px}
+@media (min-width:600px){ .sci-grid{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:1000px){ .sci-grid{grid-template-columns:repeat(3,1fr)} .sci-grid.two{grid-template-columns:repeat(2,1fr)} }
+.sci-card{border-radius:26px; padding:20px 22px 22px; color:var(--ink); box-shadow:0 14px 26px -14px var(--soft); min-width:0}
+.sci-card h3{font-family:"Century Schoolbook",Georgia,serif; font-weight:700; font-size:22px; margin-bottom:8px}
+.sci-card p{font-size:16px; line-height:1.45}
+.sci-card.c1{background:var(--salmon)} .sci-card.c2{background:var(--melon)} .sci-card.c3{background:var(--lemon)}
+.sci-card.c4{background:var(--blue); border:2px solid var(--ink)} .sci-card.c5{background:var(--green)} .sci-card.c6{background:var(--lemon)}
+.small-note{font-size:14px; max-width:720px; margin:4px 0 0; opacity:.85}
+.study-list{display:grid; gap:14px; max-width:820px; margin:6px 0 10px}
+.study{background:var(--lemon); color:var(--ink); border-radius:26px; padding:20px 22px 22px; box-shadow:0 14px 26px -14px var(--soft); min-width:0}
+.study .tag{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; border:1.5px solid var(--ink); border-radius:999px; padding:4px 12px; margin-bottom:10px}
+.study h3{font-family:"Century Schoolbook",Georgia,serif; font-weight:700; font-size:22px; margin-bottom:8px}
+.study p{font-size:16px; line-height:1.5; margin-bottom:12px}
+.study a{color:var(--ink); font-weight:700; text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere}
+[data-theme="dark"] .note-box,[data-theme="dark"] .study,[data-theme="dark"] .sci-card{color:#5A2D26}
 .week{gap:4px}
 .dayb{border-radius:12px; min-width:0; font-size:18px}
 .dayb i{font-size:8px; letter-spacing:.02em}
@@ -367,7 +386,7 @@ input[type=number]{-moz-appearance:textfield}
 <header class="site-head">
   <div class="bar">
     <a class="brand" href="#home">Recharge <em>mode: ON</em></a>
-    <nav class="mainnav" aria-label="Main"><a href="#home" data-nav="home">Home</a><a href="#tools" data-nav="tools">Tools</a><a href="#research" data-nav="research">Research</a><a href="#about" data-nav="about">About</a></nav>
+    <nav class="mainnav" aria-label="Main"><a href="#home" data-nav="home">Home</a><a href="#tools" data-nav="tools">Tools</a><a href="#research" data-nav="research">Research</a><a href="#science" data-nav="science">Science</a><a href="#about" data-nav="about">About</a></nav>
     <div class="head-tools">
       <button class="icon-btn" id="themeBtn" type="button" aria-pressed="false">Dark</button>
       <button class="icon-btn" id="shareBtn" type="button">Share</button>
@@ -646,6 +665,94 @@ input[type=number]{-moz-appearance:textfield}
       <a class="btn" href="#quiz">Get my score</a>
     </div>
   </section>
+</div>
+
+</section>
+<section class="spage" data-page="science">
+<div class="container">
+  <div class="pagehead">
+    <span class="eyebrow">Science</span>
+    <h1>Why you can&rsquo;t <em>sleep</em></h1>
+    <p>What researchers know about teen sleep: the body clock, common sleep disorders, and the studies behind this project.</p>
+  </div>
+
+  <div class="note-box"><b>Please read:</b> this page is for learning, not diagnosis. I&rsquo;m a student, not a doctor. If sleep problems last for weeks or affect your school, mood or safety, talk to a parent, school nurse or doctor.</div>
+
+  <div class="prose">
+    <h2>Why it&rsquo;s hard to <em>fall asleep</em></h2>
+    <p>Teen sleep trouble usually has more than one cause. These are the main ones researchers point to.</p>
+  </div>
+  <div class="sci-grid">
+    <div class="sci-card c1"><h3>A later body clock</h3><p>During puberty the body clock tends to shift later, so feeling awake at 11pm is often biology, not laziness. Studies link the delay to pubertal stage, though the exact mechanism is still being studied.</p></div>
+    <div class="sci-card c2"><h3>Screens and light</h3><p>Large surveys link using devices near bedtime, and even having one in the bedroom, to shorter and poorer sleep. See the studies below.</p></div>
+    <div class="sci-card c3"><h3>Caffeine and energy drinks</h3><p>Reviews of adolescent studies mostly find caffeine and energy drinks go with shorter sleep. Most of that evidence is survey-based, so it shows a link, not proof of cause.</p></div>
+    <div class="sci-card c4"><h3>Early starts</h3><p>A late body clock plus an early school alarm means a sleep debt that builds up across the week.</p></div>
+    <div class="sci-card c5"><h3>Irregular timing</h3><p>Big weekend sleep-ins shift your clock later, which makes Sunday night and Monday morning harder.</p></div>
+    <div class="sci-card c6"><h3>Stress and worry</h3><p>A busy or anxious mind makes it harder to switch off, and poor sleep makes worry feel bigger the next day.</p></div>
+  </div>
+
+  <div class="prose">
+    <h2>Common teen <em>sleep disorders</em></h2>
+    <p>Most tired teens don&rsquo;t have a disorder, but some do. Here are four that come up often. Numbers are from the studies linked below.</p>
+  </div>
+  <div class="sci-grid two">
+    <div class="sci-card c2"><h3>Insomnia</h3><p>Trouble falling asleep, staying asleep or waking too early, at least a few nights a week, that affects daytime life. One large Norwegian study put adolescent insomnia at roughly 14&ndash;24% depending on the criteria used.</p></div>
+    <div class="sci-card c1"><h3>Delayed sleep phase</h3><p>The body clock runs so late that falling asleep before the early hours is very hard, and mornings are painful. In 10,220 Norwegian 16&ndash;18-year-olds, 3.3% met the criteria, and over half of them also had insomnia.</p></div>
+    <div class="sci-card c3"><h3>Sleep apnea</h3><p>Breathing repeatedly pauses during sleep. Warning signs include loud snoring, gasping, pauses in breathing, morning headaches, and feeling very tired despite a full night in bed.</p></div>
+    <div class="sci-card c4"><h3>Restless legs</h3><p>An urge to move the legs, often with an uncomfortable feeling, that is worse in the evening and at night and makes it hard to settle.</p></div>
+  </div>
+  <p class="small-note">I did not find reliable teen-specific percentages for sleep apnea or restless legs, so I have left numbers out rather than guess.</p>
+
+  <div class="prose">
+    <h2>The <em>studies</em></h2>
+    <p>Five pieces of research behind the tips on this site. Each link opens the original paper or a trustworthy summary.</p>
+  </div>
+  <div class="study-list">
+    <article class="study">
+      <span class="tag">Guidelines &middot; 2016</span>
+      <h3>How much sleep do teens need?</h3>
+      <p><b>Paruthi et al., Journal of Clinical Sleep Medicine.</b> A panel of 13 sleep experts reviewed 864 published articles and recommended 8 to 10 hours per 24 hours for ages 13 to 18. It is endorsed by the American Academy of Pediatrics. This is the target my bedtime calculator uses.</p>
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5078711/" target="_blank" rel="noopener">Read the paper</a>
+    </article>
+    <article class="study">
+      <span class="tag">Screens &middot; 2016</span>
+      <h3>Devices at bedtime</h3>
+      <p><b>Carter et al., JAMA Pediatrics.</b> A review of 20 studies covering about 125,000 children and teens found that bedtime device use or access went with less sleep, poorer sleep quality and more daytime sleepiness. Limit: the studies are observational and the overall evidence quality was rated low.</p>
+      <a href="https://orca.cardiff.ac.uk/91557/" target="_blank" rel="noopener">Read the paper</a>
+    </article>
+    <article class="study">
+      <span class="tag">Screens &middot; 2015</span>
+      <h3>Electronics and sleep in 9,846 teens</h3>
+      <p><b>Hysing et al., BMJ Open.</b> A survey of Norwegian 16&ndash;19-year-olds found that using electronic devices before bed, and heavy daytime screen time, were each linked to getting too little sleep. Most students used a device within an hour of sleeping.</p>
+      <a href="https://bmjopen.bmj.com/content/5/1/e006748" target="_blank" rel="noopener">Read the paper</a>
+    </article>
+    <article class="study">
+      <span class="tag">Body clock &middot; 2013</span>
+      <h3>Delayed sleep phase in teens</h3>
+      <p><b>Sivertsen et al., BMC Public Health.</b> A population study of 10,220 Norwegian 16&ndash;18-year-olds. About 3.3% had delayed sleep phase, and it was linked to higher school absence.</p>
+      <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3878844/" target="_blank" rel="noopener">Read the paper</a>
+    </article>
+    <article class="study">
+      <span class="tag">School start times &middot; 2020</span>
+      <h3>What happens when school starts later?</h3>
+      <p><b>Widome et al., JAMA Pediatrics.</b> 455 students in the Minneapolis&ndash;St Paul area were followed from grade 9 to 11. Those whose school moved to a later start slept about 43 minutes more per night than students at schools that did not change.</p>
+      <a href="https://www.nichd.nih.gov/newsroom/news/042920-delayed-school-start-times" target="_blank" rel="noopener">Read the NIH summary</a>
+    </article>
+  </div>
+
+  <div class="prose">
+    <h2>What this means for <em>my project</em></h2>
+    <p>These studies mostly show links, not proof of cause: teens who use phones late tend to sleep less, but other things could be involved. My survey of 62 students has the same limit, which is why the next step is the 7-day challenge, to test what actually changes when screens go off earlier.</p>
+    <h2>When to <em>ask for help</em></h2>
+    <ul>
+      <li>Trouble sleeping most nights for several weeks.</li>
+      <li>Loud snoring, gasping or breathing pauses while asleep.</li>
+      <li>Leg discomfort that stops you settling at night.</li>
+      <li>Sleepiness that affects school, mood or safety, for example when travelling or doing sport.</li>
+    </ul>
+    <p>Start with a parent or carer, your school nurse, or your doctor.</p>
+    <p style="margin-top:26px"><a class="btn" href="#bedtime">Try the tools</a></p>
+  </div>
 </div>
 
 </section>
@@ -990,6 +1097,7 @@ window.toolShow = show;
     home: "Recharge mode: ON | Sleep tools for students",
     tools: "Sleep tools | Recharge mode: ON",
     research: "Research: what 62 students told us | Recharge mode: ON",
+    science: "Sleep science: why you cannot sleep | Recharge mode: ON",
     about: "About the project | Recharge mode: ON"
   };
   var current = null;
