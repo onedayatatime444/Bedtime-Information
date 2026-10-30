@@ -339,6 +339,7 @@ button.ghost:hover{background:var(--lemon); color:var(--ink); border-color:var(-
 
 /* ---- phone fixes: stop sideways scrolling, tidy native inputs ---- */
 html,body{overflow-x:hidden; max-width:100%}
+main#main,.site-foot{position:relative; z-index:2}
 .bgwrap{position:fixed; top:0; left:0; right:0; bottom:0; overflow:hidden; pointer-events:none; z-index:0}
 .bgwrap .blob,.bgwrap .spark{position:absolute}
 input[type=time],input[type=number]{-webkit-appearance:none; appearance:none; display:block; width:100%; min-width:0; max-width:100%; margin:0; box-sizing:border-box}
