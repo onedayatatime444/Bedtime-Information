@@ -364,6 +364,22 @@ input[type=number]{-moz-appearance:textfield}
 .study p{font-size:16px; line-height:1.5; margin-bottom:12px}
 .study a{color:var(--ink); font-weight:700; text-decoration:underline; text-underline-offset:3px; overflow-wrap:anywhere}
 [data-theme="dark"] .note-box,[data-theme="dark"] .study,[data-theme="dark"] .sci-card{color:#5A2D26}
+
+.eff-wrap{max-width:900px; margin:6px 0 10px}
+.eff-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
+.eff{border-radius:22px; padding:16px 16px 18px; color:var(--ink); box-shadow:0 12px 22px -14px var(--soft); min-width:0; transition:transform .18s}
+.eff:hover{transform:translateY(-3px)}
+.eff h3{font-family:"Century Schoolbook",Georgia,serif; font-weight:700; font-size:19px; line-height:1.15; margin:8px 0 6px}
+.eff p{font-size:14.5px; line-height:1.4}
+.eff-tag{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; border:1.5px solid var(--ink); border-radius:999px; padding:3px 10px}
+.eff.c1{background:var(--salmon)} .eff.c2{background:var(--melon)} .eff.c3{background:var(--lemon)}
+.eff.c4{background:var(--blue); border:2px solid var(--ink)} .eff.c5{background:var(--green)}
+.more-card{display:none}
+.eff-grid.open .more-card{display:block; animation:rise .35s ease-out}
+.eff-more{display:block; margin:18px auto 0; cursor:pointer}
+@media (min-width:760px){ .eff-grid{gap:16px} .eff{padding:20px 20px 22px} .eff h3{font-size:22px} .eff p{font-size:16px} }
+@media (prefers-reduced-motion:reduce){ .eff{transition:none} .eff-grid.open .more-card{animation:none} }
+[data-theme="dark"] .eff{color:#5A2D26}
 .week{gap:4px}
 .dayb{border-radius:12px; min-width:0; font-size:18px}
 .dayb i{font-size:8px; letter-spacing:.02em}
@@ -683,12 +699,11 @@ input[type=number]{-moz-appearance:textfield}
     <p>Teen sleep trouble usually has more than one cause. These are the main ones researchers point to.</p>
   </div>
   <div class="sci-grid">
-    <div class="sci-card c1"><h3>A later body clock</h3><p>During puberty the body clock tends to shift later, so feeling awake at 11pm is often biology, not laziness. Studies link the delay to pubertal stage, though the exact mechanism is still being studied.</p></div>
+    <div class="sci-card c1"><h3>A later body clock</h3><p>During puberty the body clock tends to shift later, so feeling awake at 11pm is often biology, not laziness. Studies find the body clock is later in later stages of puberty, though the exact mechanism is still being studied.</p></div>
     <div class="sci-card c2"><h3>Screens and light</h3><p>Large surveys link using devices near bedtime, and even having one in the bedroom, to shorter and poorer sleep. See the studies below.</p></div>
     <div class="sci-card c3"><h3>Caffeine and energy drinks</h3><p>Reviews of adolescent studies mostly find caffeine and energy drinks go with shorter sleep. Most of that evidence is survey-based, so it shows a link, not proof of cause.</p></div>
-    <div class="sci-card c4"><h3>Early starts</h3><p>A late body clock plus an early school alarm means a sleep debt that builds up across the week.</p></div>
-    <div class="sci-card c5"><h3>Irregular timing</h3><p>Big weekend sleep-ins shift your clock later, which makes Sunday night and Monday morning harder.</p></div>
-    <div class="sci-card c6"><h3>Stress and worry</h3><p>A busy or anxious mind makes it harder to switch off, and poor sleep makes worry feel bigger the next day.</p></div>
+    <div class="sci-card c4"><h3>Early starts</h3><p>An early school alarm can cut sleep short for teens whose body clocks run late, and the AAP report discusses later school start times as one way to help.</p></div>
+    <div class="sci-card c5"><h3>Irregular timing</h3><p>Going to bed and waking much later on weekends is linked to a bigger sleep debt on weekdays.</p></div>
   </div>
 
   <div class="prose">
@@ -696,12 +711,47 @@ input[type=number]{-moz-appearance:textfield}
     <p>Most tired teens don&rsquo;t have a disorder, but some do. Here are four that come up often. Numbers are from the studies linked below.</p>
   </div>
   <div class="sci-grid two">
-    <div class="sci-card c2"><h3>Insomnia</h3><p>Trouble falling asleep, staying asleep or waking too early, at least a few nights a week, that affects daytime life. One large Norwegian study put adolescent insomnia at roughly 14&ndash;24% depending on the criteria used.</p></div>
+    <div class="sci-card c2"><h3>Insomnia</h3><p>Trouble falling asleep, staying asleep or waking too early, at least a few nights a week, that affects daytime life. Estimates vary a lot with how insomnia is defined: roughly one in five teens report symptoms in some national surveys, while a formal diagnosis is much rarer.</p></div>
     <div class="sci-card c1"><h3>Delayed sleep phase</h3><p>The body clock runs so late that falling asleep before the early hours is very hard, and mornings are painful. In 10,220 Norwegian 16&ndash;18-year-olds, 3.3% met the criteria, and over half of them also had insomnia.</p></div>
     <div class="sci-card c3"><h3>Sleep apnea</h3><p>Breathing repeatedly pauses during sleep. Warning signs include loud snoring, gasping, pauses in breathing, morning headaches, and feeling very tired despite a full night in bed.</p></div>
     <div class="sci-card c4"><h3>Restless legs</h3><p>An urge to move the legs, often with an uncomfortable feeling, that is worse in the evening and at night and makes it hard to settle.</p></div>
   </div>
   <p class="small-note">I did not find reliable teen-specific percentages for sleep apnea or restless legs, so I have left numbers out rather than guess.</p>
+
+  <div class="prose">
+    <h2>What lack of sleep <em>does</em></h2>
+    <p>Short sleep affects far more than feeling tired. Each card below is backed by a study or report listed under it. Most show links, not proof of cause.</p>
+  </div>
+  <div class="eff-wrap">
+    <div class="eff-grid" id="effGrid">
+      <article class="eff c3"><span class="eff-tag">Brain</span><h3>Focus and attention</h3><p>The CDC links short sleep in teens to attention and behaviour problems.</p></article>
+      <article class="eff c1"><span class="eff-tag">Brain</span><h3>Grades</h3><p>The CDC lists poor academic performance among the problems linked to short sleep in teens.</p></article>
+      <article class="eff c4"><span class="eff-tag">Mood</span><h3>Low mood</h3><p>Teens who sleep less report more sadness and hopelessness, and the AAP report links short sleep to depression. If you feel low for weeks, talk to someone you trust.</p></article>
+      <article class="eff c2"><span class="eff-tag">Safety</span><h3>Drowsy driving</h3><p>The AAP report links sleepiness to car crashes in young drivers, which is one reason it treats teen sleep loss as a public health issue.</p></article>
+      <article class="eff c5"><span class="eff-tag">Safety</span><h3>Sports injuries</h3><p>In a survey of 112 teen athletes, those who slept under 8 hours a night were about 1.7 times as likely to have been injured as those who slept 8 or more.</p></article>
+      <article class="eff c1"><span class="eff-tag">Brain</span><h3>Risk-taking</h3><p>Teens getting 7 hours or less on school nights were more likely to take driving risks, such as not wearing a seatbelt or riding with a drunk driver.</p></article>
+      <article class="eff c3"><span class="eff-tag">Body</span><h3>Catching colds</h3><p>In an experiment with 164 adults, people who slept under 6 hours a night were about 4 times as likely to catch a cold after being exposed to the virus.</p></article>
+      <article class="eff c2"><span class="eff-tag">Body</span><h3>Hunger</h3><p>In a small experiment with 12 young men, two nights of short sleep raised hunger by about 24% and the hunger hormone ghrelin by about 28%.</p></article>
+      <article class="eff c5 more-card"><span class="eff-tag">Body</span><h3>Weight</h3><p>Short sleep in teens is linked to a higher risk of obesity, according to the AAP report. It shows a link, not proof of cause.</p></article>
+      <article class="eff c1 more-card"><span class="eff-tag">Body</span><h3>Blood sugar</h3><p>In an experiment with healthy teenage boys, three nights of 4 hours&rsquo; sleep made their bodies respond worse to insulin than nights of 9 hours.</p></article>
+      <article class="eff c4 more-card"><span class="eff-tag">Body</span><h3>Blood pressure</h3><p>Some studies of teens link short sleep or late bedtimes to higher blood pressure. The evidence is limited, and it is not clear which causes which.</p></article>
+      <article class="eff c3 more-card"><span class="eff-tag">Body</span><h3>Pain</h3><p>In a Berkeley study of 25 healthy young adults, one night without sleep lowered the point at which heat started to feel painful.</p></article>
+      <article class="eff c2 more-card"><span class="eff-tag">Life</span><h3>Weekend sleep debt</h3><p>Going to bed and waking much later on weekends is linked to a bigger sleep debt on weekdays.</p></article>
+    </div>
+    <button class="btn eff-more" id="effMore" type="button" aria-expanded="false" aria-controls="effGrid">Show more</button>
+  </div>
+  <p class="small-note">Sources: Owens and the AAP Adolescent Sleep Working Group, <a href="https://www.cmhnetwork.org/resources/insufficient-sleep-in-adolescents-and-young-adults-an-update-on-causes-and-consequences/" target="_blank" rel="noopener">Insufficient sleep in adolescents and young adults</a>, Pediatrics, 2014; CDC teen sleep data, <a href="https://apta.org/news/2018/01/29/cdc-most-middle-and-high-school-students-dont-get-enough-sleep" target="_blank" rel="noopener">summarised here</a>; Milewski et al., <a href="https://pubmed.ncbi.nlm.nih.gov/25028798/" target="_blank" rel="noopener">sports injuries</a>, 2014; Prather et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4531398" target="_blank" rel="noopener">common cold</a>, Sleep, 2015; Spiegel et al., <a href="https://pubmed.ncbi.nlm.nih.gov/15583226/" target="_blank" rel="noopener">hunger hormones</a>, 2004; <a href="https://news.berkeley.edu/?p=72131" target="_blank" rel="noopener">Berkeley pain study</a>. The cold, hunger and pain studies used adults, so they show what sleep loss does in people generally, not only in teens. Most teen findings are links, not proof of cause.</p>
+  <script>
+  (function(){
+    var g=document.getElementById("effGrid"), b=document.getElementById("effMore");
+    if(!g||!b) return;
+    b.addEventListener("click", function(){
+      var open=g.classList.toggle("open");
+      b.textContent=open?"Show fewer":"Show more";
+      b.setAttribute("aria-expanded", open?"true":"false");
+    });
+  })();
+  </script>
 
   <div class="prose">
     <h2>The <em>studies</em></h2>
@@ -717,7 +767,7 @@ input[type=number]{-moz-appearance:textfield}
     <article class="study">
       <span class="tag">Screens &middot; 2016</span>
       <h3>Devices at bedtime</h3>
-      <p><b>Carter et al., JAMA Pediatrics.</b> A review of 20 studies covering about 125,000 children and teens found that bedtime device use or access went with less sleep, poorer sleep quality and more daytime sleepiness. Limit: the studies are observational and the overall evidence quality was rated low.</p>
+      <p><b>Carter et al., JAMA Pediatrics.</b> A review of 20 studies covering about 125,000 children and teens (ages 6&ndash;19) found that bedtime device use or access went with less sleep, poorer sleep quality and more daytime sleepiness. Limit: the studies are observational, so they show a link, not proof of cause.</p>
       <a href="https://orca.cardiff.ac.uk/91557/" target="_blank" rel="noopener">Read the paper</a>
     </article>
     <article class="study">
