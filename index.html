@@ -333,6 +333,40 @@ button.ghost:hover{background:var(--lemon); color:var(--ink); border-color:var(-
 @media (min-width:900px){ .tools-main .wrap{padding-top:10px} .tools-main h1{font-size:60px} }
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .bars .fill{animation:none} .btn,a.tool{transition:none} }
 
+.party{position:fixed; inset:0; z-index:9998; background:rgba(58,27,23,.86); overflow:hidden; animation:pfade .35s ease-out both; display:flex; align-items:flex-end; justify-content:center; padding:0 18px 7vh}
+@keyframes pfade{from{opacity:0}to{opacity:1}}
+.beams{position:absolute; left:50%; top:0; width:220vmax; height:220vmax; margin-left:-110vmax; transform-origin:50% 0; pointer-events:none; opacity:.55;
+  background:conic-gradient(from 160deg at 50% 0%, transparent 0deg, rgba(224,121,112,.55) 5deg, transparent 12deg, rgba(249,213,141,.5) 24deg, transparent 31deg, rgba(222,137,72,.5) 44deg, transparent 51deg, rgba(205,215,216,.5) 64deg, transparent 71deg, rgba(187,171,71,.45) 84deg, transparent 91deg, rgba(224,121,112,.5) 104deg, transparent 111deg, rgba(249,213,141,.45) 124deg, transparent 131deg, transparent 360deg);
+  animation:pspin 14s linear infinite}
+@keyframes pspin{from{transform:rotate(-14deg)}50%{transform:rotate(14deg)}to{transform:rotate(-14deg)}}
+.ballwrap{position:absolute; left:50%; top:0; width:clamp(130px,36vw,200px); margin-left:calc(clamp(130px,36vw,200px) / -2); animation:pdrop 1.15s cubic-bezier(.28,1.45,.5,1) both}
+@keyframes pdrop{from{transform:translateY(-120%)}to{transform:translateY(0)}}
+.sway{transform-origin:50% 0; animation:psway 3.4s ease-in-out 1.2s infinite}
+@keyframes psway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+.string{width:3px; height:clamp(40px,12vh,110px); margin:0 auto; background:linear-gradient(#CDD7D8,#8E9FA2); border-radius:2px}
+.ball{display:block; width:100%; height:auto; filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.tw{animation:ptw 1.9s ease-in-out infinite}
+.tw2{animation-duration:2.4s; animation-delay:.5s} .tw3{animation-duration:3s; animation-delay:1s}
+@keyframes ptw{0%,100%{opacity:1; filter:brightness(1)}50%{opacity:.62; filter:brightness(1.35)}}
+.pspark{position:absolute; color:#F9D58D; font-size:22px; line-height:1; animation:pstar 1.8s ease-in-out infinite; pointer-events:none}
+@keyframes pstar{0%,100%{transform:scale(.4) rotate(0); opacity:.2}50%{transform:scale(1.15) rotate(25deg); opacity:1}}
+.pcard{position:relative; z-index:2; width:100%; max-width:420px; background:#CDD7D8; color:#5A2D26; border-radius:30px; padding:26px 24px 24px; text-align:center; box-shadow:8px 8px 0 #E07970, 0 24px 40px -10px rgba(0,0,0,.45); animation:prise .7s cubic-bezier(.2,1.2,.4,1) .9s both}
+@keyframes prise{from{opacity:0; transform:translateY(40px) scale(.94)}to{opacity:1; transform:none}}
+.pcard .ptag{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; border:1.5px solid #5A2D26; border-radius:999px; padding:5px 14px}
+.pcard h2{font-family:"Century Schoolbook",Georgia,serif; font-weight:400; font-size:clamp(40px,11vw,56px); line-height:1; margin:14px 0 10px}
+.pcard h2 em{font-style:italic; color:#E07970}
+.pcard p{font-size:17px; line-height:1.4; margin-bottom:6px}
+.pstats{display:flex; gap:10px; margin:16px 0 18px}
+.pstat{flex:1; border-radius:18px; padding:12px 6px; min-width:0}
+.pstat:nth-child(1){background:#E07970} .pstat:nth-child(2){background:#F9D58D} .pstat:nth-child(3){background:#DE8948}
+.pstat b{display:block; font-family:"Century Schoolbook",Georgia,serif; font-size:26px; line-height:1}
+.pstat span{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-top:4px; font-weight:700}
+.pbtns{display:flex; flex-direction:column; gap:8px}
+.pbtns button{width:100%; padding:14px; font-size:17px; font-weight:700; border-radius:999px; cursor:pointer; font-family:inherit; border:2px solid #5A2D26}
+.pgo{background:#E07970; color:#5A2D26} .pclose{background:transparent; color:#5A2D26}
+.pbtns button:focus-visible{outline:3px solid #5A2D26; outline-offset:3px}
+@media (prefers-reduced-motion:reduce){ .beams,.sway,.tw,.pspark{animation:none} .ballwrap,.pcard,.party{animation:none} }
+
 /* ---- single-file page switching ---- */
 .spage{display:none}
 .spage.active{display:block}
@@ -1084,6 +1118,8 @@ $("debtGo").addEventListener("click", function(){
 
 /* ======= 5. challenge ======= */
 var days = load("challenge", [false,false,false,false,false,false,false]);
+var chWeek = load("chWeek", 1);
+window.startNextWeek = function(){ days = [false,false,false,false,false,false,false]; chWeek++; store("challenge", days); store("chWeek", chWeek); renderChallenge(); };
 if (!days || days.length !== 7) days = [false,false,false,false,false,false,false];
 function confetti(){
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1112,6 +1148,58 @@ function confetti(){
   }
   requestAnimationFrame(tick);
 }
+function buildBall(){
+  var R = 92, C = 100, seed = 7;
+  function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+  var cols = ["#CDD7D8","#CDD7D8","#FFFFFF","#CDD7D8","#F9D58D","#E07970","#DE8948","#BBAB47","#FFFFFF"], g = ["","",""], rows = 13, i, j, k;
+  function pt(p, l){ return [Math.cos(p) * Math.sin(l), Math.sin(p), Math.cos(p) * Math.cos(l)]; }
+  for (i = 0; i < rows; i++){
+    var p1 = -Math.PI / 2 + Math.PI * i / rows, p2 = -Math.PI / 2 + Math.PI * (i + 1) / rows;
+    var n = Math.max(6, Math.round(26 * Math.cos((p1 + p2) / 2)));
+    for (j = 0; j < n; j++){
+      var l1 = -Math.PI + 2 * Math.PI * j / n, l2 = -Math.PI + 2 * Math.PI * (j + 1) / n;
+      var q = [pt(p1, l1), pt(p1, l2), pt(p2, l2), pt(p2, l1)], cz = 0, mn = 9, pts = [];
+      for (k = 0; k < 4; k++){ cz += q[k][2] / 4; mn = Math.min(mn, q[k][2]); pts.push((C + R * q[k][0]).toFixed(1) + "," + (C - R * q[k][1]).toFixed(1)); }
+      if (cz < 0.12 || mn < 0) continue;
+      g[Math.floor(rnd() * 3)] += '<polygon points="' + pts.join(" ") + '" fill="' + cols[Math.floor(rnd() * cols.length)] + '" fill-opacity="' + (0.55 + 0.4 * cz).toFixed(2) + '"/>';
+    }
+  }
+  var s = '<svg class="ball" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><defs>' +
+    '<radialGradient id="pbase" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".55" stop-color="#CDD7D8"/><stop offset="1" stop-color="#8E9FA2"/></radialGradient>' +
+    '<radialGradient id="pshade" cx="40%" cy="34%" r="70%"><stop offset=".45" stop-color="#5A2D26" stop-opacity="0"/><stop offset="1" stop-color="#5A2D26" stop-opacity=".55"/></radialGradient>' +
+    '<radialGradient id="pshine" cx="33%" cy="28%" r="30%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+    '<clipPath id="pclip"><circle cx="100" cy="100" r="92"/></clipPath></defs>' +
+    '<rect x="92" y="2" width="16" height="12" rx="3" fill="#5A2D26"/><circle cx="100" cy="100" r="92" fill="url(#pbase)"/>' +
+    '<g clip-path="url(#pclip)" stroke="#5A2D26" stroke-opacity=".22" stroke-width=".6">' +
+    '<g class="tw tw1">' + g[0] + '</g><g class="tw tw2">' + g[1] + '</g><g class="tw tw3">' + g[2] + '</g></g>' +
+    '<circle cx="100" cy="100" r="92" fill="url(#pshade)"/><circle cx="100" cy="100" r="92" fill="url(#pshine)"/>' +
+    '<circle cx="100" cy="100" r="92" fill="none" stroke="#5A2D26" stroke-width="3"/></svg>';
+  return s;
+}
+function celebrate(week){
+  if (document.getElementById("party")) return;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var o = document.createElement("div"); o.className = "party"; o.id = "party";
+  o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("aria-labelledby", "partyT");
+  var sp = ""; var pos = [[8,14],[86,10],[16,38],[80,34],[50,6],[92,52],[6,60]];
+  for (var i = 0; i < pos.length; i++) sp += '<span class="pspark" aria-hidden="true" style="left:' + pos[i][0] + '%;top:' + pos[i][1] + '%;animation-delay:' + (i * 0.27) + 's">&#10022;</span>';
+  o.innerHTML = '<div class="beams" aria-hidden="true"></div>' + sp +
+    '<div class="ballwrap" aria-hidden="true"><div class="sway"><div class="string"></div>' + buildBall() + '</div></div>' +
+    '<div class="pcard"><span class="ptag">Week ' + week + ' complete</span><h2 id="partyT">You did <em>it!</em></h2>' +
+    '<p>Seven nights of switching off before bed. Your battery is fully charged.</p>' +
+    '<div class="pstats"><div class="pstat"><b>7</b><span>Nights</span></div><div class="pstat"><b>3.5h</b><span>Phone-free</span></div><div class="pstat"><b>' + week + '</b><span>' + (week === 1 ? "Week" : "Weeks") + '</span></div></div>' +
+    '<div class="pbtns"><button type="button" class="pgo">Start week ' + (week + 1) + '</button><button type="button" class="pclose">Close</button></div></div>';
+  document.body.appendChild(o);
+  function close(){ if (o.parentNode) o.parentNode.removeChild(o); document.removeEventListener("keydown", onKey); }
+  function onKey(e){ if (e.key === "Escape") close(); }
+  document.addEventListener("keydown", onKey);
+  o.querySelector(".pclose").addEventListener("click", close);
+  o.querySelector(".pgo").addEventListener("click", function(){ close(); if (window.startNextWeek) window.startNextWeek(); });
+  o.addEventListener("click", function(e){ if (e.target === o) close(); });
+  o.querySelector(".pgo").focus();
+  if (!reduce){ setTimeout(confetti, 700); setTimeout(confetti, 1700); }
+}
+
 function renderChallenge(){
   var w = $("week"); w.innerHTML = "";
   var done = 0;
@@ -1120,15 +1208,15 @@ function renderChallenge(){
     b.type = "button"; b.className = "dayb"; b.setAttribute("aria-pressed", days[i] ? "true" : "false");
     b.setAttribute("aria-label", "Night " + (i + 1) + (days[i] ? ", done" : ", not done"));
     b.innerHTML = "<i>Night</i>" + (i + 1);
-    (function(idx){ b.addEventListener("click", function(){ days[idx] = !days[idx]; store("challenge", days); renderChallenge(); if (days[idx] && days.every(Boolean)) confetti(); }); })(i);
+    (function(idx){ b.addEventListener("click", function(){ days[idx] = !days[idx]; store("challenge", days); renderChallenge(); if (days[idx] && days.every(Boolean)) celebrate(chWeek); }); })(i);
     w.appendChild(b); if (days[i]) done++;
   }
   fill($("chBat"), done, 7);
-  $("chCount").textContent = done + " of 7";
+  $("chCount").textContent = done + " of 7" + (chWeek > 1 ? " \u00b7 Week " + chWeek : "");
   var msg = done === 0 ? "Night 1 starts tonight. Put the phone away 30 minutes before bed, then tap the box."
           : done < 4 ? "Good start. Keep the streak going."
           : done < 7 ? "More than halfway. Your battery is charging."
-          : "Challenge complete. Fully charged. Tell a friend to try it.";
+          : "Week " + chWeek + " complete. Fully charged. Tell a friend to try it, or start the next week.";
   $("chMsg").textContent = msg;
   $("surveyBtn").style.display = (SURVEY_URL && done === 7) ? "block" : "none";
 }
