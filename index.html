@@ -367,6 +367,27 @@ button.ghost:hover{background:var(--lemon); color:var(--ink); border-color:var(-
 .pbtns button:focus-visible{outline:3px solid #5A2D26; outline-offset:3px}
 @media (prefers-reduced-motion:reduce){ .beams,.sway,.tw,.pspark{animation:none} .ballwrap,.pcard,.party{animation:none} }
 
+.pck{background:#F9D58D; color:#5A2D26}
+.ck{position:fixed; inset:0; z-index:9999; background:rgba(58,27,23,.86); overflow-y:auto; -webkit-overflow-scrolling:touch; display:flex; align-items:flex-start; justify-content:center; padding:24px 14px 40px; animation:pfade .25s ease-out both}
+.ckcard{width:100%; max-width:460px; background:#CDD7D8; color:#5A2D26; border-radius:28px; padding:24px 20px 22px; box-shadow:8px 8px 0 #E07970; margin:auto 0}
+.ckcard h2{font-family:"Century Schoolbook",Georgia,serif; font-weight:400; font-size:34px; line-height:1.05; margin:0 0 6px}
+.ckcard h2 em{font-style:italic; color:#E07970}
+.ckcard .cksub{font-size:15px; line-height:1.4; margin-bottom:14px}
+.ckq{margin:14px 0 0}
+.ckq b{display:block; font-size:14px; margin-bottom:7px}
+.ckq small{font-weight:400; opacity:.8}
+.ckopts{display:flex; flex-wrap:wrap; gap:7px}
+.ckopts button{font:inherit; font-size:15px; font-weight:700; color:#5A2D26; background:#fff; border:2px solid #5A2D26; border-radius:999px; padding:8px 14px; cursor:pointer; min-width:44px; min-height:40px}
+.ckopts button[aria-pressed="true"]{background:#E07970}
+.ckopts button:focus-visible{outline:3px solid #5A2D26; outline-offset:2px}
+.ckrow{display:flex; justify-content:space-between; font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-top:4px; opacity:.8; font-weight:700}
+.ckgo{display:block; width:100%; margin-top:20px; padding:15px; font:inherit; font-size:18px; font-weight:700; color:#5A2D26; background:#E07970; border:2px solid #5A2D26; border-radius:999px; cursor:pointer}
+.ckgo[disabled]{opacity:.45; cursor:not-allowed}
+.ckx{display:block; width:100%; margin-top:8px; padding:12px; font:inherit; font-size:16px; font-weight:700; color:#5A2D26; background:transparent; border:0; cursor:pointer; text-decoration:underline}
+.ckmsg{font-size:14px; margin-top:8px; min-height:18px; font-weight:700}
+.ckthanks{text-align:center; padding:10px 0}
+.ckthanks h2{font-size:40px}
+
 /* ---- single-file page switching ---- */
 .spage{display:none}
 .spage.active{display:block}
@@ -637,6 +658,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="bat-label" id="chCount">0 of 7</div>
       </div>
       <p class="why" id="chMsg"></p>
+      <button type="button" class="main" id="ckBtn" style="display:none; width:100%; text-align:center; margin-top:16px; padding:15px; border-radius:999px; border:2px solid var(--ink); background:var(--salmon); color:var(--ink); font-weight:700; font-size:18px; cursor:pointer; font-family:inherit">Share how it went (20 sec)</button>
       <a class="main" id="surveyBtn" href="#" target="_blank" rel="noopener" style="display:none; text-align:center; text-decoration:none; margin-top:16px; padding:15px; border-radius:999px; background:var(--salmon); color:var(--ink); font-weight:700; font-size:18px">Tell us how it went</a>
       <button class="ghost" type="button" id="chReset">Start again</button>
     </div>
@@ -803,7 +825,7 @@ input[type=number]{-moz-appearance:textfield}
       <span class="tag">Screens &middot; 2016</span>
       <h3>Devices at bedtime</h3>
       <p><b>Carter et al., JAMA Pediatrics.</b> A review of 20 studies covering about 125,000 children and teens (ages 6&ndash;19) found that bedtime device use or access went with less sleep, poorer sleep quality and more daytime sleepiness. Limit: the studies are observational, so they show a link, not proof of cause.</p>
-      <a href="https://orca.cardiff.ac.uk/91557/" target="_blank" rel="noopener">Read the paper</a>
+      <a href="https://doi.org/10.1001/jamapediatrics.2016.2341" target="_blank" rel="noopener">Read the paper</a>
     </article>
     <article class="study">
       <span class="tag">Screens &middot; 2015</span>
@@ -876,7 +898,7 @@ input[type=number]{-moz-appearance:textfield}
     </ul>
 
     <h2>Privacy and <em>sources</em></h2>
-    <p>These tools run entirely in your browser. There are no accounts. Quiz answers, sleep hours and challenge ticks stay on your own device, and nothing is sent to me.</p>
+    <p>These tools run entirely in your browser. There are no accounts. Quiz answers, sleep hours and challenge ticks stay on your own device. The only thing that is ever sent to me is the optional, anonymous check-in at the end of the 7-day challenge, which asks for no name or email and which you can skip.</p>
     <p>Sleep guidance: the American Academy of Sleep Medicine recommends 8 to 10 hours for ages 13 to 18, and more for younger children.</p>
 
     <p style="margin-top:26px"><a class="btn" href="#bedtime">Try the tools</a></p>
@@ -887,7 +909,7 @@ input[type=number]{-moz-appearance:textfield}
 </main>
 <footer class="site-foot">
   <p>Made by Aadhiya &middot; A student project on sleep and wellbeing</p>
-  <p>Everything runs in your browser. Nothing you type or tick is sent anywhere.</p>
+  <p>The tools run in your browser. Nothing is sent unless you choose to share the optional, anonymous check-in after the 7-day challenge.</p>
 </footer>
 <script>
 
@@ -1148,6 +1170,60 @@ function confetti(){
   }
   requestAnimationFrame(tick);
 }
+var CHECKIN_URL = "";   // paste your Google Apps Script web app link between the quotes to turn the check-in on
+function openCheckin(){
+  if (!CHECKIN_URL || document.getElementById("ck")) return;
+  var sets = [
+    ["age", "Which age group are you?", ["11–13","14–15","16–18"], true],
+    ["before", "Sleep on school nights BEFORE the challenge", ["Under 6h","6–7h","7–8h","8–9h","9h+"], true],
+    ["during", "Sleep on school nights DURING the challenge", ["Under 6h","6–7h","7–8h","8–9h","9h+"], true],
+    ["tiredBefore", "How tired in the day BEFORE? (1 = not at all, 5 = exhausted)", ["1","2","3","4","5"], true],
+    ["tiredDuring", "How tired in the day DURING the challenge?", ["1","2","3","4","5"], true],
+    ["conc", "Concentration in lessons, compared with before", ["Worse","Same","Better"], true],
+    ["swap", "What did you do instead of scrolling? <small>(optional)</small>", ["Music","Book","Stretch","Chat","Other"], false]
+  ];
+  var ans = {}, o = document.createElement("div"); o.className = "ck"; o.id = "ck";
+  o.setAttribute("role", "dialog"); o.setAttribute("aria-modal", "true"); o.setAttribute("aria-labelledby", "ckT");
+  var h = '<div class="ckcard"><div id="ckBody"><h2 id="ckT">How did it <em>go?</em></h2><p class="cksub">Anonymous. About 20 seconds. No name, no email. Your answers go into my school project.</p>';
+  for (var i = 0; i < sets.length; i++){
+    h += '<div class="ckq" data-k="' + sets[i][0] + '"><b>' + sets[i][1] + '</b><div class="ckopts">';
+    for (var j = 0; j < sets[i][2].length; j++) h += '<button type="button" aria-pressed="false" data-v="' + sets[i][2][j] + '">' + sets[i][2][j] + '</button>';
+    h += '</div></div>';
+  }
+  h += '<button type="button" class="ckgo" disabled>Send my answers</button><div class="ckmsg" role="status" aria-live="polite"></div><button type="button" class="ckx">Not now</button></div></div>';
+  o.innerHTML = h; document.body.appendChild(o);
+  var go = o.querySelector(".ckgo"), msg = o.querySelector(".ckmsg");
+  function close(){ if (o.parentNode) o.parentNode.removeChild(o); document.removeEventListener("keydown", onKey); }
+  function onKey(e){ if (e.key === "Escape") close(); }
+  document.addEventListener("keydown", onKey);
+  function ready(){ for (var i = 0; i < sets.length; i++) if (sets[i][3] && !ans[sets[i][0]]) return false; return true; }
+  o.addEventListener("click", function(e){
+    var b = e.target; if (!b || b.tagName !== "BUTTON") return;
+    var q = b.parentNode && b.parentNode.parentNode;
+    if (q && q.getAttribute && q.getAttribute("data-k") && b.hasAttribute("data-v")){
+      var k = q.getAttribute("data-k"), btns = q.querySelectorAll("button");
+      for (var i = 0; i < btns.length; i++) btns[i].setAttribute("aria-pressed", "false");
+      b.setAttribute("aria-pressed", "true"); ans[k] = b.getAttribute("data-v"); go.disabled = !ready();
+    }
+  });
+  o.querySelector(".ckx").addEventListener("click", close);
+  go.addEventListener("click", function(){
+    if (!ready()) return;
+    go.disabled = true; msg.textContent = "Sending...";
+    var payload = { age: ans.age, before: ans.before, during: ans.during, tiredBefore: ans.tiredBefore, tiredDuring: ans.tiredDuring, conc: ans.conc, swap: ans.swap || "", nights: 7, week: (typeof chWeek === "number" ? chWeek : 1) };
+    function done(){
+      store("ckDone" + payload.week, true);
+      o.querySelector("#ckBody").innerHTML = '<div class="ckthanks"><h2>Thank <em>you!</em></h2><p class="cksub">Your answers are in. You just helped my project, and maybe a few more people sleep better.</p><button type="button" class="ckgo ckfin">Close</button></div>';
+      o.querySelector(".ckfin").addEventListener("click", close);
+      if (window.refreshCheckinBtn) window.refreshCheckinBtn();
+    }
+    try {
+      fetch(CHECKIN_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).then(done, function(){ msg.textContent = "Could not send. Check your connection and try again."; go.disabled = false; });
+    } catch (err){ msg.textContent = "Could not send. Try again later."; go.disabled = false; }
+  });
+  var first = o.querySelector(".ckopts button"); if (first) first.focus();
+}
+
 function buildBall(){
   var R = 92, C = 100, seed = 7;
   function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -1188,12 +1264,13 @@ function celebrate(week){
     '<div class="pcard"><span class="ptag">Week ' + week + ' complete</span><h2 id="partyT">You did <em>it!</em></h2>' +
     '<p>Seven nights of switching off before bed. Your battery is fully charged.</p>' +
     '<div class="pstats"><div class="pstat"><b>7</b><span>Nights</span></div><div class="pstat"><b>3.5h</b><span>Phone-free</span></div><div class="pstat"><b>' + week + '</b><span>' + (week === 1 ? "Week" : "Weeks") + '</span></div></div>' +
-    '<div class="pbtns"><button type="button" class="pgo">Start week ' + (week + 1) + '</button><button type="button" class="pclose">Close</button></div></div>';
+    '<div class="pbtns"><button type="button" class="pgo">Start week ' + (week + 1) + '</button>' + (CHECKIN_URL && !load("ckDone" + week, false) ? '<button type="button" class="pck">Share how it went (20 sec)</button>' : '') + '<button type="button" class="pclose">Close</button></div></div>';
   document.body.appendChild(o);
   function close(){ if (o.parentNode) o.parentNode.removeChild(o); document.removeEventListener("keydown", onKey); }
   function onKey(e){ if (e.key === "Escape") close(); }
   document.addEventListener("keydown", onKey);
   o.querySelector(".pclose").addEventListener("click", close);
+  var pck = o.querySelector(".pck"); if (pck) pck.addEventListener("click", function(){ close(); openCheckin(); });
   o.querySelector(".pgo").addEventListener("click", function(){ close(); if (window.startNextWeek) window.startNextWeek(); });
   o.addEventListener("click", function(e){ if (e.target === o) close(); });
   o.querySelector(".pgo").focus();
@@ -1219,10 +1296,13 @@ function renderChallenge(){
           : "Week " + chWeek + " complete. Fully charged. Tell a friend to try it, or start the next week.";
   $("chMsg").textContent = msg;
   $("surveyBtn").style.display = (SURVEY_URL && done === 7) ? "block" : "none";
+  $("ckBtn").style.display = (CHECKIN_URL && done === 7 && !load("ckDone" + chWeek, false)) ? "block" : "none";
 }
 makeSegs($("chBat"), 7);
 $("chReset").addEventListener("click", function(){ days = [false,false,false,false,false,false,false]; store("challenge", days); renderChallenge(); });
 if (SURVEY_URL) $("surveyBtn").href = SURVEY_URL;
+$("ckBtn").addEventListener("click", openCheckin);
+window.refreshCheckinBtn = function(){ renderChallenge(); };
 renderChallenge();
 
 /* ======= start ======= */
