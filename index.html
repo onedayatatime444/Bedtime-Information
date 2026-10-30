@@ -1085,6 +1085,33 @@ $("debtGo").addEventListener("click", function(){
 /* ======= 5. challenge ======= */
 var days = load("challenge", [false,false,false,false,false,false,false]);
 if (!days || days.length !== 7) days = [false,false,false,false,false,false,false];
+function confetti(){
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var c = document.createElement("canvas"); c.setAttribute("aria-hidden", "true");
+  c.style.cssText = "position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:9999";
+  document.body.appendChild(c);
+  var dpr = Math.min(window.devicePixelRatio || 1, 2), W = c.width = innerWidth * dpr, H = c.height = innerHeight * dpr, x = c.getContext("2d");
+  var cols = ["#E07970","#DE8948","#F9D58D","#BBAB47","#CDD7D8","#5A2D26"], P = [], i;
+  for (i = 0; i < 170; i++){
+    var side = i % 2 ? 1 : -1;
+    P.push({ x: W / 2 + side * W * 0.42, y: H * 0.7, vx: -side * (4 + Math.random() * 10) * dpr, vy: -(10 + Math.random() * 14) * dpr,
+      w: (6 + Math.random() * 7) * dpr, h: (9 + Math.random() * 10) * dpr, r: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.4,
+      c: cols[Math.floor(Math.random() * cols.length)], round: Math.random() < 0.3 });
+  }
+  var t0 = null;
+  function tick(ts){
+    if (t0 === null) t0 = ts;
+    var el = ts - t0; x.clearRect(0, 0, W, H);
+    for (var k = 0; k < P.length; k++){
+      var p = P[k]; p.vy += 0.45 * dpr; p.vx *= 0.988; p.vy *= 0.992; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      x.save(); x.translate(p.x, p.y); x.rotate(p.r); x.globalAlpha = Math.max(0, Math.min(1, (4200 - el) / 1200)); x.fillStyle = p.c;
+      if (p.round){ x.beginPath(); x.arc(0, 0, p.w / 2, 0, 6.283); x.fill(); } else { x.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); }
+      x.restore();
+    }
+    if (el < 4200) requestAnimationFrame(tick); else if (c.parentNode) c.parentNode.removeChild(c);
+  }
+  requestAnimationFrame(tick);
+}
 function renderChallenge(){
   var w = $("week"); w.innerHTML = "";
   var done = 0;
@@ -1093,7 +1120,7 @@ function renderChallenge(){
     b.type = "button"; b.className = "dayb"; b.setAttribute("aria-pressed", days[i] ? "true" : "false");
     b.setAttribute("aria-label", "Night " + (i + 1) + (days[i] ? ", done" : ", not done"));
     b.innerHTML = "<i>Night</i>" + (i + 1);
-    (function(idx){ b.addEventListener("click", function(){ days[idx] = !days[idx]; store("challenge", days); renderChallenge(); }); })(i);
+    (function(idx){ b.addEventListener("click", function(){ days[idx] = !days[idx]; store("challenge", days); renderChallenge(); if (days[idx] && days.every(Boolean)) confetti(); }); })(i);
     w.appendChild(b); if (days[i]) done++;
   }
   fill($("chBat"), done, 7);
